@@ -7,15 +7,18 @@ import ReactPaginate from "react-js-pagination";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
-import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
+import CircularProgress from "@mui/material/CircularProgress";
 
 export function Home() {
-  const { data: { getAllPokemon = [] } = {}, loading } = useQuery(GET_POKEMONS, {
-    variables: {
-      offset: 0,
-      take: 36,
-    },
-  });
+  const { data: { getAllPokemon = [] } = {}, loading } = useQuery(
+    GET_POKEMONS,
+    {
+      variables: {
+        offset: 0,
+        take: 36,
+      },
+    }
+  );
 
   const { setPokemonData } = usePokemonContext();
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,7 +49,13 @@ export function Home() {
   return (
     <>
       <div className="container">
-        <div style={{ display: "flex" , justifyContent: "flex-end", alignItems: "center"}}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
           <TextField
             id="search"
             label="Search Pokemon"
@@ -63,9 +72,15 @@ export function Home() {
           />
         </div>
 
-        {/* Conditional rendering based on loading */}
         {loading ? (
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "200px",
+            }}
+          >
             <CircularProgress />
           </div>
         ) : (
