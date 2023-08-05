@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
-import { GET_POKEMONS } from "../graphQuery/getquery";
 import Pokemon from "./PokemonList";
 import { usePokemonContext } from "./PokemonContextProvider";
 import ReactPaginate from "react-js-pagination";
@@ -10,36 +8,23 @@ import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export function Home() {
-  const { data: { getAllPokemon = [] } = {}, loading } = useQuery(
-    GET_POKEMONS,
-    {
-      variables: {
-        offset: 0,
-        take: 36,
-      },
-    }
-  );
 
-  const { setPokemonData } = usePokemonContext();
+  const { pokemonData, setPokemonData, loading } = usePokemonContext();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(6);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState(getAllPokemon);
+  const [filteredData, setFilteredData] = useState(pokemonData);
 
   const handleChangePage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   useEffect(() => {
-    setPokemonData(getAllPokemon);
-  }, [getAllPokemon, setPokemonData]);
-
-  useEffect(() => {
-    const filtered = getAllPokemon.filter((poke) =>
+    const filtered = pokemonData.filter((poke) =>
       poke.species.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredData(filtered);
-  }, [searchQuery, getAllPokemon]);
+  }, [searchQuery, pokemonData]);
 
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
